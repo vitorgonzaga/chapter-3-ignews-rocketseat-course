@@ -19,7 +19,7 @@ interface User {
 const SUCCESS_URL = process.env.STRIPE_SUCCESS_URL as string
 const CANCEL_URL = process.env.STRIPE_CANCEL_URL as string
 
-export const subscribe = async (req: NextApiRequest, res: NextApiResponse) => {
+async function subscribe(req: NextApiRequest, res: NextApiResponse){
   if (req.method === 'POST') {
     const session = await getSession({ req })
 
@@ -75,3 +75,5 @@ export const subscribe = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(405).end('Method not allowed');
   }
 };
+
+export default subscribe
