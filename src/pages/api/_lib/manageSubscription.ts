@@ -9,8 +9,8 @@ export async function saveSubscription(
 ) {
   // Buscar o usuario no FaunaDB com o Id {customerId}
   // Salvar os dados do subscription no FaunaDB
-  console.log("customerId", customerId);
-  console.log("subscriptionId", subscriptionId);
+  // console.log("customerId", customerId);
+  // console.log("subscriptionId", subscriptionId);
 
   const userRef = await fauna.query(
     q.Select(

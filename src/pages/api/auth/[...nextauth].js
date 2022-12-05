@@ -14,8 +14,39 @@ export const authOptions = {
     }),
   ],
   callbacks: {
+    async session(session) {
+      try {
+        const { email } = session.session?.user
+        console.log('session -> email', email)
+        const userActiveSubscription = await fauna.query(
+          q.Get(
+            q.Intersection([
+              q.Match(
+                q.Index('subscription_by_user_ref'),
+                q.Select(
+                  "ref",
+                  q.Get(
+                    q.Match(
+                      q.Index('user_by_email'),
+                      q.Casefold(email)
+                    )
+                  )
+                )
+              ),
+              q.Match(
+                q.Index('subscription_by_status'),
+                q.Casefold("active")
+              )
+            ])
+          )
+        )
+        return { ...session.session, activeSubscription: userActiveSubscription }
+      } catch (error) {
+        console.log('session -> error', error)
+        return { ...session.session, activeSubscription: null }
+      }
+    },
     async signIn({ user, _account, _profile, _email, _credentials }) {
-      console.log('signIn -> user', user)
       const { email } = user
       try {
         await fauna.query(

@@ -49,7 +49,7 @@ export async function getStaticProps() {
     pageSize: 100
   })
 
-  console.log('getStaticProps -> posts', JSON.stringify(posts, null, 2))
+  // console.log('getStaticProps -> posts', JSON.stringify(posts, null, 2))
 
   const postsFormatted = posts.results.map(post => {
     return {
